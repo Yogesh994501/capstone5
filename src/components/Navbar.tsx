@@ -40,7 +40,8 @@ export const Navbar: React.FC = () => {
   const cartCount = totalCartCount();
 
   return (
-    <header className="w-full max-w-[1800px] mx-auto px-5 sm:px-8 md:px-[82px] pt-[20px] sm:pt-[30px] flex items-center justify-between relative z-50 animate-fade-down">
+    <header className="sticky top-0 z-50 w-full bg-[#060D09]/85 backdrop-blur-[24px] border-b border-white/[0.06] py-3.5 transition-all duration-300 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+      <div className="w-full max-w-[1800px] mx-auto px-5 sm:px-8 md:px-[82px] flex items-center justify-between">
       {/* Brand Logo (Left) */}
       <button
         onClick={() => setConsoleOpen(true)}
@@ -181,6 +182,7 @@ export const Navbar: React.FC = () => {
       >
         {mobileMenuOpen ? <X className="w-5 h-5 text-emerald-400" /> : <Menu className="w-5 h-5 text-white" />}
       </button>
+      </div>
 
       {/* Mobile Drawer Overlay */}
       {mobileMenuOpen && (

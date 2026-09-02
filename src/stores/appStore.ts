@@ -218,6 +218,10 @@ interface AppState {
   } | null;
   setOrderSuccessData: (data: AppState['orderSuccessData']) => void;
 
+  // Toast notification
+  toastMessage: string | null;
+  setToastMessage: (msg: string | null) => void;
+
   // Transaction Logs (reactive, replaces module-level mutable var)
   logs: TransactionLog[];
   addLog: (log: Omit<TransactionLog, 'id' | 'timestamp'>) => void;
@@ -244,19 +248,24 @@ export const useAppStore = create<AppState>((set, get) => ({
     { product: INITIAL_PRODUCTS[8], quantity: 1 },
   ],
 
+  toastMessage: null,
+  setToastMessage: (toastMessage) => set({ toastMessage }),
+
   addToCart: (product) =>
     set((state) => {
       const existing = state.cartItems.find((item) => item.product.id === product.id);
-      if (existing) {
-        return {
-          cartItems: state.cartItems.map((item) =>
+      const newItems = existing
+        ? state.cartItems.map((item) =>
             item.product.id === product.id
               ? { ...item, quantity: item.quantity + 1 }
               : item
-          ),
-        };
-      }
-      return { cartItems: [...state.cartItems, { product, quantity: 1 }] };
+          )
+        : [...state.cartItems, { product, quantity: 1 }];
+
+      return {
+        cartItems: newItems,
+        toastMessage: `Added "${product.name}" to cart`,
+      };
     }),
 
   updateQuantity: (productId, delta) =>

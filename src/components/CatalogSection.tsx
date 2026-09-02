@@ -1,12 +1,15 @@
 import React, { useState, useMemo } from 'react';
 import { Product } from '../types';
-import { Sparkles, Plus, Check, ShieldCheck, Thermometer, SearchX } from 'lucide-react';
+import { Sparkles, Plus, Minus, Check, ShieldCheck, Thermometer, SearchX } from 'lucide-react';
 import { useAppStore } from '../stores/appStore';
 import { ImageSkeleton } from './ImageSkeleton';
 
 export const CatalogSection: React.FC = () => {
   const products = useAppStore((s) => s.products);
   const addToCart = useAppStore((s) => s.addToCart);
+  const cartItems = useAppStore((s) => s.cartItems);
+  const updateQuantity = useAppStore((s) => s.updateQuantity);
+  const setCartOpen = useAppStore((s) => s.setCartOpen);
   const setQueryModalOpen = useAppStore((s) => s.setQueryModalOpen);
   const searchQuery = useAppStore((s) => s.searchQuery);
   const setSearchQuery = useAppStore((s) => s.setSearchQuery);
@@ -110,6 +113,8 @@ export const CatalogSection: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {filteredProducts.map((product) => {
           const isAdded = addedItemMap[product.id];
+          const cartItem = cartItems.find((i) => i.product.id === product.id);
+          const inCartQty = cartItem?.quantity || 0;
 
           return (
             <div
@@ -166,27 +171,55 @@ export const CatalogSection: React.FC = () => {
                   </div>
                 </div>
 
-                <button
-                  onClick={() => handleAdd(product)}
-                  className={`h-[40px] px-4 rounded-[12px] text-[13px] font-bold flex items-center gap-1.5 transition-all active:scale-95 ${
-                    isAdded
-                      ? 'bg-emerald-400 text-[#05210E]'
-                      : 'bg-white/10 hover:bg-emerald-500 hover:text-[#05210E] text-white border border-white/10'
-                  }`}
-                  aria-label={`Add ${product.name} to cart`}
-                >
-                  {isAdded ? (
-                    <>
-                      <Check className="w-4 h-4" />
-                      <span>Added!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Plus className="w-4 h-4" />
-                      <span>Add</span>
-                    </>
-                  )}
-                </button>
+                {inCartQty > 0 ? (
+                  <div className="flex items-center gap-1.5 bg-emerald-500/15 border border-emerald-500/30 rounded-[12px] p-1">
+                    <button
+                      onClick={() => updateQuantity(product.id, -1)}
+                      className="w-7 h-7 flex items-center justify-center rounded-[8px] bg-black/40 hover:bg-black/60 text-emerald-300 hover:text-white transition-colors"
+                      aria-label={`Decrease ${product.name} quantity`}
+                    >
+                      <Minus className="w-3.5 h-3.5" />
+                    </button>
+
+                    <button
+                      onClick={() => setCartOpen(true)}
+                      className="px-2 text-[12px] font-mono font-bold text-emerald-300 hover:text-white flex items-center gap-1 cursor-pointer transition-colors"
+                      title="Click to view full cart list"
+                    >
+                      <span>{inCartQty} in cart</span>
+                    </button>
+
+                    <button
+                      onClick={() => handleAdd(product)}
+                      className="w-7 h-7 flex items-center justify-center rounded-[8px] bg-emerald-500 hover:bg-emerald-400 text-black font-bold transition-colors cursor-pointer"
+                      aria-label={`Increase ${product.name} quantity`}
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => handleAdd(product)}
+                    className={`h-[40px] px-4 rounded-[12px] text-[13px] font-bold flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer ${
+                      isAdded
+                        ? 'bg-emerald-400 text-[#05210E]'
+                        : 'bg-white/10 hover:bg-emerald-500 hover:text-[#05210E] text-white border border-white/10'
+                    }`}
+                    aria-label={`Add ${product.name} to cart`}
+                  >
+                    {isAdded ? (
+                      <>
+                        <Check className="w-4 h-4" />
+                        <span>Added!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Plus className="w-4 h-4" />
+                        <span>Add</span>
+                      </>
+                    )}
+                  </button>
+                )}
               </div>
             </div>
           );

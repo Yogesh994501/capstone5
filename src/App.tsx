@@ -9,6 +9,8 @@ import { ScrollBackground } from './components/ScrollBackground';
 import { FirebaseConsole } from './components/FirebaseConsole';
 import { AuthModal } from './components/AuthModal';
 import { OrderHistory } from './components/OrderHistory';
+import { FloatingCartBar } from './components/FloatingCartBar';
+import { CartToast } from './components/CartToast';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { AuthProvider } from './contexts/AuthContext';
 import { Database, ShieldCheck, Zap, Activity, ArrowRight } from 'lucide-react';
@@ -38,6 +40,12 @@ const AppContent: React.FC = () => {
 
       {/* Global Interactive Firebase Console Dock */}
       <FirebaseConsole />
+
+      {/* Persistent Floating Quick-Access Cart Bar */}
+      <FloatingCartBar />
+
+      {/* Added-to-Cart Toast Notification */}
+      <CartToast />
 
       {/* Interactive Cart Slide-over Drawer */}
       <CartDrawer />
