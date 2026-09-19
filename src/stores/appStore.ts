@@ -27,7 +27,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     stock: 185,
     shardId: 'nam5-shard-01',
     temperature: 2.8,
-    image: 'https://images.unsplash.com/photo-1524179091875-bf99a9a6fa57?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=600&q=80',
     farmOrigin: 'Canyon Creek Organics, Watsonville',
     rating: 4.8,
     isOrganic: true,
