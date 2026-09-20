@@ -98,10 +98,17 @@ export const Navbar: React.FC = () => {
         <button
           onClick={() => setCartOpen(true)}
           className="h-[46px] px-5 rounded-[11px] text-white text-[14px] font-medium hover:bg-white/5 transition-colors flex items-center gap-2 cursor-pointer"
-          aria-label="View Cart"
+          aria-label={cartCount > 0 ? `View Cart (${cartCount} items)` : 'View Cart (Empty)'}
         >
-          <ShoppingBag className="w-4 h-4 text-emerald-400" />
-          <span>Cart ({cartCount})</span>
+          <div className="relative flex items-center">
+            <ShoppingBag className="w-4 h-4 text-emerald-400" />
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2.5 min-w-[18px] h-[18px] px-1 rounded-full bg-emerald-500 text-black text-[10px] font-mono font-bold flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
+          </div>
+          <span className="ml-1">Cart {cartCount > 0 ? `(${cartCount})` : ''}</span>
         </button>
 
         {/* User / Auth */}
@@ -273,7 +280,7 @@ export const Navbar: React.FC = () => {
               className="w-full h-[50px] rounded-[14px] bg-white/[0.08] hover:bg-white/15 border border-white/10 text-white text-[15px] font-medium flex items-center justify-center gap-2"
             >
               <ShoppingBag className="w-4 h-4 text-emerald-400" />
-              <span>Review Cart ({cartCount} Items)</span>
+              <span>{cartCount > 0 ? `Review Cart (${cartCount} Items)` : 'View Cart (Empty)'}</span>
             </button>
 
             {user ? (

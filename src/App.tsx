@@ -203,7 +203,10 @@ const AppContent: React.FC = () => {
                   onClick={() => setCartOpen(true)}
                   className="h-[52px] px-6 rounded-[14px] border border-white/20 hover:border-emerald-400 text-white text-[15px] font-medium transition-all hover:bg-white/5 flex items-center gap-2 cursor-pointer"
                 >
-                  <span>Open Staged Cart ({totalCartCount()})</span>
+                  <ShoppingBag className="w-4 h-4 text-emerald-400" />
+                  <span>
+                    {totalCartCount() > 0 ? `Review Cart (${totalCartCount()})` : 'View Cart'}
+                  </span>
                 </button>
               </div>
             </div>

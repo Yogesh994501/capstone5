@@ -242,11 +242,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   setSearchQuery: (searchQuery) => set({ searchQuery }),
 
   // ── Cart ────────────────────────────────────────────────────────────────────
-  cartItems: [
-    { product: INITIAL_PRODUCTS[0], quantity: 2 },
-    { product: INITIAL_PRODUCTS[4], quantity: 1 },
-    { product: INITIAL_PRODUCTS[8], quantity: 1 },
-  ],
+  cartItems: [],
 
   toastMessage: null,
   setToastMessage: (toastMessage) => set({ toastMessage }),
