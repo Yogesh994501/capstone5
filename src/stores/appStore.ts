@@ -167,7 +167,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     stock: 110,
     shardId: 'nam5-shard-10',
     temperature: 3.4,
-    image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1504545102780-26774c1bb073?auto=format&fit=crop&w=600&q=80',
     farmOrigin: 'Redwood Mycological Reserve',
     rating: 4.8,
     isOrganic: true,
