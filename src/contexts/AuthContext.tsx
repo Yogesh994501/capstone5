@@ -58,6 +58,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         return 'Invalid email or password. Please verify your credentials.';
       case 'auth/popup-closed-by-user':
         return 'Google Sign-in popup was closed before completing.';
+      case 'auth/unauthorized-domain':
+        return 'Google OAuth is domain-restricted on this shared dataset. Please use Email Sign Up / Sign In or click "Demo Guest" for 1-click access!';
       case 'auth/network-request-failed':
         return 'Network connection error. Please check your internet connection.';
       default:
