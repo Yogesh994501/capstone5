@@ -634,7 +634,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     "reviews": 44,
     "available": true
   }
-];
+]
 
 // ─── Store Interface ────────────────────────────────────────────────────────────
 interface AppState {
@@ -647,6 +647,7 @@ interface AppState {
   // Products
   products: Product[];
   setProducts: (products: Product[]) => void;
+  decrementStock: (orderedItems: CartItem[]) => void;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
 
@@ -684,7 +685,7 @@ interface AppState {
   toastMessage: string | null;
   setToastMessage: (msg: string | null) => void;
 
-  // Transaction Logs (reactive, replaces module-level mutable var)
+  // Transaction Logs
   logs: TransactionLog[];
   addLog: (log: Omit<TransactionLog, 'id' | 'timestamp'>) => void;
   setLogs: (logs: TransactionLog[]) => void;
@@ -700,6 +701,13 @@ export const useAppStore = create<AppState>((set, get) => ({
   // ── Products ────────────────────────────────────────────────────────────────
   products: INITIAL_PRODUCTS,
   setProducts: (products) => set({ products }),
+  decrementStock: (orderedItems) =>
+    set((state) => ({
+      products: state.products.map((p) => {
+        const item = orderedItems.find((oi) => oi.product.id === p.id);
+        return item ? { ...p, stock: Math.max(0, p.stock - item.quantity) } : p;
+      }),
+    })),
   searchQuery: '',
   setSearchQuery: (searchQuery) => set({ searchQuery }),
 
@@ -780,10 +788,10 @@ export const useAppStore = create<AppState>((set, get) => ({
       id: 'tx-init-02',
       timestamp: new Date().toISOString(),
       type: 'READ',
-      target: 'inventory_live',
+      target: 'products',
       status: 'COMMITTED',
       latencyMs: 0.9,
-      details: 'Loaded 12 SKU partitions with 0 lock contentions',
+      details: 'Loaded 30 SKU partitions with 0 lock contentions',
     },
   ],
 

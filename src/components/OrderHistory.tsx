@@ -19,6 +19,16 @@ export const OrderHistory: React.FC = () => {
 
     const fetchOrders = async () => {
       setLoading(true);
+
+      // Read local cached orders first for instant loading
+      let localList: Order[] = [];
+      try {
+        const raw = localStorage.getItem(`verdant_orders_${user.uid}`);
+        if (raw) localList = JSON.parse(raw);
+      } catch {
+        // ignore
+      }
+
       try {
         const ordersRef = collection(db, 'orders');
         const q = query(
@@ -27,14 +37,22 @@ export const OrderHistory: React.FC = () => {
           orderBy('createdAt', 'desc')
         );
         const snapshot = await getDocs(q);
-        const list: Order[] = [];
+        const cloudList: Order[] = [];
         snapshot.forEach((doc) => {
-          list.push({ id: doc.id, ...doc.data() } as Order);
+          cloudList.push({ id: doc.id, ...doc.data() } as Order);
         });
-        setOrders(list);
+
+        // Merge without duplicates (txId takes precedence)
+        const map = new Map<string, Order>();
+        [...cloudList, ...localList].forEach((o) => {
+          const key = o.txId || o.id;
+          if (!map.has(key)) map.set(key, o);
+        });
+
+        setOrders(Array.from(map.values()));
       } catch {
-        // Firestore may not have the index yet — show empty state
-        setOrders([]);
+        // Cloud blocked or offline: display local orders
+        setOrders(localList);
       }
       setLoading(false);
     };
