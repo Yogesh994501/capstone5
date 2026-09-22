@@ -173,10 +173,10 @@ export const Navbar: React.FC = () => {
         ) : (
           <button
             onClick={() => setAuthModalOpen(true)}
-            className="h-[46px] px-6 bg-[#22C55E] rounded-[11px] text-[#05210E] text-[14px] font-semibold hover:bg-[#16A34A] transition-colors shadow-lg shadow-emerald-500/20 flex items-center gap-2 active:scale-95 cursor-pointer"
+            className="h-[46px] px-5 bg-[#22C55E] rounded-[11px] text-[#05210E] text-[14px] font-bold hover:bg-[#16A34A] transition-colors shadow-lg shadow-emerald-500/20 flex items-center gap-2 active:scale-95 cursor-pointer"
           >
             <User className="w-4 h-4" />
-            <span>Sign In</span>
+            <span>Sign Up / In</span>
           </button>
         )}
       </div>

@@ -13,7 +13,7 @@ import { FloatingCartBar } from './components/FloatingCartBar';
 import { CartToast } from './components/CartToast';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { AuthProvider } from './contexts/AuthContext';
-import { Database, ShieldCheck, Zap, Activity, ArrowRight } from 'lucide-react';
+import { Database, ShieldCheck, Zap, Activity, ArrowRight, ShoppingBag } from 'lucide-react';
 import { useAppStore } from './stores/appStore';
 import { subscribeToProducts } from './services/dbService';
 
