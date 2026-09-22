@@ -17,7 +17,13 @@ export const CatalogSection: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [addedItemMap, setAddedItemMap] = useState<Record<string, boolean>>({});
 
-  const categories = ['All', 'Produce', 'Cold-Pressed', 'Dairy & Ferments', 'Pantry'];
+  const categories = useMemo(() => {
+    const set = new Set<string>();
+    products.forEach((p) => {
+      if (p.category) set.add(p.category);
+    });
+    return ['All', ...Array.from(set)];
+  }, [products]);
 
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
@@ -145,29 +151,47 @@ export const CatalogSection: React.FC = () => {
                 {/* Meta details */}
                 <div className="flex items-center justify-between text-[11px] font-mono text-white/50 mb-1.5">
                   <span className="text-emerald-400 font-semibold uppercase">{product.category}</span>
-                  <span>{product.sku}</span>
+                  {product.discount ? (
+                    <span className="px-1.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 font-bold text-[10px]">
+                      {product.discount}
+                    </span>
+                  ) : (
+                    <span>{product.sku}</span>
+                  )}
                 </div>
 
                 {/* Product Name */}
-                <h3 className="text-white font-bold text-[17px] leading-snug mb-1 group-hover:text-emerald-300 transition-colors">
-                  {product.name}
+                <h3 className="text-white font-bold text-[17px] leading-snug mb-1 group-hover:text-emerald-300 transition-colors flex items-center gap-1.5">
+                  {product.emoji && <span className="text-[18px]">{product.emoji}</span>}
+                  <span className="truncate">{product.name}</span>
                 </h3>
 
-                {/* Farm Origin */}
-                <p className="text-white/60 text-[12px] mb-4 flex items-center gap-1">
-                  <span>📍</span>
+                {/* Farm Origin & Unit */}
+                <p className="text-white/60 text-[12px] mb-4 flex items-center justify-between gap-1">
                   <span className="truncate">{product.farmOrigin}</span>
+                  {product.unit && (
+                    <span className="text-white/40 font-mono text-[11px] flex-shrink-0 bg-white/5 px-2 py-0.5 rounded">
+                      {product.unit}
+                    </span>
+                  )}
                 </p>
               </div>
 
               {/* Price & Action Row */}
               <div className="pt-3 border-t border-white/[0.08] flex items-center justify-between">
                 <div>
-                  <div className="text-[20px] font-extrabold text-white font-mono">
-                    ${product.price.toFixed(2)}
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-[20px] font-extrabold text-white font-mono">
+                      ₹{product.price}
+                    </span>
+                    {product.oldPrice && (
+                      <span className="text-[12px] text-white/40 line-through font-mono">
+                        ₹{product.oldPrice}
+                      </span>
+                    )}
                   </div>
                   <div className="text-[10px] text-white/40 font-mono">
-                    {product.stock} units in shard
+                    {product.stock} in stock
                   </div>
                 </div>
 

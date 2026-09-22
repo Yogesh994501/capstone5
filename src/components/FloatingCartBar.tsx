@@ -32,7 +32,7 @@ export const FloatingCartBar: React.FC = () => {
         <div className="text-left font-mono">
           <div className="text-[13px] font-bold text-white flex items-center gap-1.5">
             <span>Staged Cart</span>
-            <span className="text-emerald-400">${subtotal.toFixed(2)}</span>
+            <span className="text-emerald-400">₹{subtotal.toFixed(2)}</span>
           </div>
           <div className="text-[10px] text-white/50">
             {cartItems.length} SKU{cartItems.length !== 1 ? 's' : ''} &bull; Click to review

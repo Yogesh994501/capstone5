@@ -4,7 +4,7 @@ export interface Product {
   id: string;
   sku: string;
   name: string;
-  category: 'Produce' | 'Cold-Pressed' | 'Dairy & Ferments' | 'Pantry';
+  category: string;
   price: number;
   stock: number;
   shardId: string;
@@ -13,6 +13,13 @@ export interface Product {
   farmOrigin: string;
   rating: number;
   isOrganic: boolean;
+  unit?: string;
+  description?: string;
+  emoji?: string;
+  discount?: string;
+  oldPrice?: number;
+  reviews?: number;
+  available?: boolean;
 }
 
 export interface CartItem {
